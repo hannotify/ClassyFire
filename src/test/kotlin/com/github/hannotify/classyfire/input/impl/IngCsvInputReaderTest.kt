@@ -1,5 +1,6 @@
 package com.github.hannotify.classyfire.input.impl
 
+import java.nio.file.Path
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -11,7 +12,7 @@ internal class IngCsvInputReaderTest {
         val inputReader = IngCsvInputReader()
 
         // Act
-        val transactions = inputReader.read("src/test/resources/test.csv")
+        val transactions = inputReader.read(Path.of("src/test/resources/test.csv"))
 
         // Assert
         assertEquals(96, transactions.size);

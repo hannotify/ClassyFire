@@ -1,17 +1,19 @@
 package com.github.hannotify.classyfire.input.impl
 
-import com.github.hannotify.classyfire.data.Transaction
+import com.github.hannotify.classyfire.data.transaction.Transaction
 import com.github.hannotify.classyfire.input.InputReader
 import java.io.File
 import java.math.BigDecimal
+import java.nio.file.Files
+import java.nio.file.Path
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class IngCsvInputReader : InputReader {
-    override fun read(filePath: String): Collection<Transaction> {
+    override fun read(inputFilePath: Path): Collection<Transaction> {
         val transactions = mutableListOf<Transaction>()
 
-        File(filePath).readLines()
+        Files.lines(inputFilePath)
                 .filter { !isHeaderLine(it) }
                 .forEach { transactions.add(toTransaction(it)) }
 
