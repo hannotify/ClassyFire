@@ -1,6 +1,6 @@
 package com.github.hannotify.classyfire.input.impl
 
-import com.github.hannotify.classyfire.data.Transaction
+import com.github.hannotify.classyfire.data.transaction.Transaction
 import com.github.hannotify.classyfire.input.InputReader
 import java.io.File
 import java.math.BigDecimal
