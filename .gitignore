@@ -6,5 +6,8 @@ build/
 .idea
 *.iml
 
+#Test results
+.kotlintest/
+
 #Test bank statements
 src/test/resources/*.csv
