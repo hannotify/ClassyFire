@@ -1,5 +1,6 @@
-package com.github.hannotify.classyfire.data.classification
+package com.github.hannotify.classyfire.classification
 
+import com.github.hannotify.classyfire.classification.Classification
 import com.github.hannotify.classyfire.data.category.Category
 import com.github.hannotify.classyfire.data.transaction.Transaction
 import de.daslaboratorium.machinelearning.classifier.Classifier

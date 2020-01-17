@@ -1,6 +1,6 @@
 package com.github.hannotify.classyfire.output.impl
 
-import com.github.hannotify.classyfire.data.classification.Classification
+import com.github.hannotify.classyfire.classification.Classification
 import com.github.hannotify.classyfire.output.OutputWriter
 import java.io.File
 import java.nio.file.Path

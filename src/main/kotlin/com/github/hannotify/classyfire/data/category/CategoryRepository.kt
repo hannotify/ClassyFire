@@ -1,6 +1,13 @@
 package com.github.hannotify.classyfire.data.category
 
-interface CategoryRepository {
-    fun add(category: Category)
-    fun findAll(): Collection<Category>
+import java.nio.file.Path
+
+abstract class CategoryRepository {
+    private val STORAGE_LOCATION = Path.of("src/main/resources/categories.txt")
+
+    abstract fun add(category: Category)
+    abstract fun exists(category: Category): Boolean
+    abstract fun findAll(): Collection<Category>
+    abstract fun retrieve()
+    abstract fun persist()
 }

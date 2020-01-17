@@ -1,6 +1,6 @@
 package com.github.hannotify.classyfire.output.impl
 
-import com.github.hannotify.classyfire.data.classification.Classification
+import com.github.hannotify.classyfire.classification.Classification
 import com.github.hannotify.classyfire.output.OutputWriter
 import com.github.hannotify.classyfire.testdata.Categories
 import com.github.hannotify.classyfire.testdata.Transactions
