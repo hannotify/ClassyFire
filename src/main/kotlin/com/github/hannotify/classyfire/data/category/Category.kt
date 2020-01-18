@@ -2,8 +2,7 @@ package com.github.hannotify.classyfire.data.category
 
 import com.github.hannotify.classyfire.output.CsvOutput
 
-data class Category (val categoryType: CategoryType, val name: String, val superCategory: Category? = null): CsvOutput {
-
+data class Category (val categoryType: CategoryType, val name: String, val superCategory: Category? = null): CsvOutput, Comparable<Category> {
 
     override fun getCsvFields(): List<String> {
         return listOf(toString());
@@ -16,7 +15,7 @@ data class Category (val categoryType: CategoryType, val name: String, val super
     companion object {
         val SUPER_CATEGORY_DELIMITER = " / "
 
-        fun fromString(categoryString: String, categoryType: CategoryType? = null): Category? {
+        fun fromString(categoryString: String, categoryType: CategoryType? = null): Category {
             var _categoryType = categoryType
             var categoryStrings = categoryString.split(" (")
 
@@ -29,5 +28,9 @@ data class Category (val categoryType: CategoryType, val name: String, val super
             val hasSuperCategory = categoryStrings.size > 1
             return Category(_categoryType!!, categoryStrings[0], if (hasSuperCategory) fromString(categoryStrings[1], _categoryType) else null)
         }
+    }
+
+    override fun compareTo(other: Category): Int {
+        return name.compareTo(other.name)
     }
 }
