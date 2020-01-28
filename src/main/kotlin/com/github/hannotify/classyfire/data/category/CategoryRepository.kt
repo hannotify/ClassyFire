@@ -5,7 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.util.*
 
-class CategoryRepository(val storageLocation: Path? = Path.of("src/main/resources/categories.txt")) {
+class CategoryRepository(private val storageLocation: Path? = Path.of("src/main/resources/categories.txt")) {
     private val categories: SortedSet<Category> = TreeSet()
 
     fun save(category: Category) {

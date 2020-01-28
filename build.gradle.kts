@@ -27,6 +27,7 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.github.ptnplanet:Java-Naive-Bayes-Classifier:1.0.7")
+    implementation("com.github.ajalt:clikt:2.4.0")
 
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
@@ -35,7 +36,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = "com.github.hannotify.AppKt"
+    mainClassName = "com.github.hannotify.classyfire.ClassyFireKt"
 }
 
 tasks.withType<KotlinCompile> {

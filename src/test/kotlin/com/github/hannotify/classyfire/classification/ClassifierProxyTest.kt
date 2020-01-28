@@ -1,6 +1,5 @@
 package com.github.hannotify.classyfire.classification
 
-import com.github.hannotify.classyfire.classification.ClassyFire
 import com.github.hannotify.classyfire.testdata.Categories.Companion.salarySubcategory
 import com.github.hannotify.classyfire.testdata.Categories.Companion.waterSubcategory
 import com.github.hannotify.classyfire.testdata.Transactions.Companion.salaryTransaction
@@ -9,8 +8,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class ClassyFireTest {
-    private val classifier: ClassyFire = ClassyFire()
+internal class ClassifierProxyTest {
+    private val classifier: ClassifierProxy = ClassifierProxy()
 
     @BeforeTest
     fun learn() {
