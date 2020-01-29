@@ -4,14 +4,6 @@ import com.github.hannotify.classyfire.output.CsvOutput
 
 data class Category (val categoryType: CategoryType, val name: String, val superCategory: Category? = null): CsvOutput, Comparable<Category> {
 
-    override fun getCsvFields(): List<String> {
-        return listOf(toString());
-    }
-
-    override fun toString(): String {
-        return name + if (superCategory != null) "$SUPER_CATEGORY_DELIMITER$superCategory" else " ($categoryType)"
-    }
-
     companion object {
         val SUPER_CATEGORY_DELIMITER = " / "
 
@@ -30,7 +22,37 @@ data class Category (val categoryType: CategoryType, val name: String, val super
         }
     }
 
+    override fun getCsvFields(): List<String> {
+        return listOf(toString());
+    }
+
+    override fun toString(): String {
+        return name + if (isSubcategory()) "$SUPER_CATEGORY_DELIMITER$superCategory" else " ($categoryType)"
+    }
+
     override fun compareTo(other: Category): Int {
-        return name.compareTo(other.name)
+        if (isSubcategory()) {
+            return if (other.isSubcategory()) {
+                val superCategoryComparisonResult = superCategory?.compareTo(other.superCategory!!)
+
+                if (superCategoryComparisonResult != 0) {
+                    superCategoryComparisonResult!!
+                } else {
+                    name.compareTo(other.name)
+                }
+            } else {
+                -1;
+            }
+        } else {
+            return if (other.isSubcategory()) {
+                1
+            } else {
+                name.compareTo(other.name)
+            }
+        }
+    }
+
+    fun isSubcategory(): Boolean {
+        return superCategory != null
     }
 }
