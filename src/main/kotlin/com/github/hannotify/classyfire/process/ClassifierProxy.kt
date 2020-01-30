@@ -1,6 +1,7 @@
-package com.github.hannotify.classyfire.classification
+package com.github.hannotify.classyfire.process
 
 import com.github.hannotify.classyfire.data.category.Category
+import com.github.hannotify.classyfire.data.classification.Classification
 import com.github.hannotify.classyfire.data.transaction.Transaction
 import de.daslaboratorium.machinelearning.classifier.Classifier
 import de.daslaboratorium.machinelearning.classifier.bayes.BayesClassifier

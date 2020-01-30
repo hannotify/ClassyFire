@@ -1,29 +1,36 @@
 package com.github.hannotify.classyfire.data.category
 
-import java.io.File
-import java.nio.file.Files
+import com.github.hannotify.classyfire.data.Repository
 import java.nio.file.Path
-import java.util.*
+import java.util.stream.Collectors
 
-class CategoryRepository(private val storageLocation: Path? = Path.of("src/main/resources/categories.txt")) {
-    private val categories: SortedSet<Category> = TreeSet()
+class CategoryRepository(storageLocation: Path) : Repository<Category>(storageLocation) {
 
-    fun save(category: Category) {
-        categories.add(category)
+    fun findIncomeSubcategories(): Collection<Category> {
+        return findSubcategoriesByCategoryType(CategoryType.INCOME)
     }
 
-    fun findAll(): Collection<Category> {
-        return categories
+    fun findExpenseSubcategories(): Collection<Category> {
+        return findSubcategoriesByCategoryType(CategoryType.EXPENSES)
     }
 
-    fun retrieve() {
-        Files.lines(storageLocation)
-                .forEach { save(Category.fromString(it)) }
+    private fun findSubcategoriesByCategoryType(categoryType: CategoryType):
+            Collection<Category> {
+        return findAll().stream()
+                .filter { it.isSubcategory() }
+                .filter { categoryType == it.categoryType }
+                .collect(Collectors.toSet())
     }
 
-    fun persist() {
-        File(storageLocation.toString()).printWriter().use { out ->
-            categories.forEach { out.println(it.toString()) }
-        }
+    override fun isEntityLine(line: String): Boolean {
+        return true
+    }
+
+    override fun entityFromString(string: String): Category {
+        return Category.fromString(string)
+    }
+
+    override fun stringFromEntity(entity: Category): String {
+        return entity.toString()
     }
 }

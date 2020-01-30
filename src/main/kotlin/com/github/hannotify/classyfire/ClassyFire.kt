@@ -9,7 +9,7 @@ class ClassyFire : CliktCommand() {
     private val inputDataPath: String by option(help = "Path of the input data file.").default("src/test/resources/test.csv")
 
     override fun run() {
-        Ui().print()
+        Ui(inputDataPath).start()
     }
 }
 

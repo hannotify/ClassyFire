@@ -1,4 +1,4 @@
-package com.github.hannotify.classyfire.classification
+package com.github.hannotify.classyfire.process
 
 class ClassificationService {
     val classifier: ClassifierProxy = ClassifierProxy()

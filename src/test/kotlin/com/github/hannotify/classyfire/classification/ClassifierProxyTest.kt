@@ -1,5 +1,6 @@
 package com.github.hannotify.classyfire.classification
 
+import com.github.hannotify.classyfire.process.ClassifierProxy
 import com.github.hannotify.classyfire.testdata.Categories.Companion.salarySubcategory
 import com.github.hannotify.classyfire.testdata.Categories.Companion.waterSubcategory
 import com.github.hannotify.classyfire.testdata.Transactions.Companion.salaryTransaction

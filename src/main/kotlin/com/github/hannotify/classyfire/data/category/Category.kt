@@ -1,8 +1,6 @@
 package com.github.hannotify.classyfire.data.category
 
-import com.github.hannotify.classyfire.output.CsvOutput
-
-data class Category (val categoryType: CategoryType, val name: String, val superCategory: Category? = null): CsvOutput, Comparable<Category> {
+data class Category (val categoryType: CategoryType, val name: String, val superCategory: Category? = null): Comparable<Category> {
 
     companion object {
         val SUPER_CATEGORY_DELIMITER = " / "
@@ -20,10 +18,6 @@ data class Category (val categoryType: CategoryType, val name: String, val super
             val hasSuperCategory = categoryStrings.size > 1
             return Category(_categoryType!!, categoryStrings[0], if (hasSuperCategory) fromString(categoryStrings[1], _categoryType) else null)
         }
-    }
-
-    override fun getCsvFields(): List<String> {
-        return listOf(toString());
     }
 
     override fun toString(): String {

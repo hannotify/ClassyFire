@@ -2,15 +2,27 @@ package com.github.hannotify.classyfire.ui
 
 import com.github.hannotify.classyfire.data.category.Category
 import com.github.hannotify.classyfire.data.category.CategoryRepository
-import com.github.hannotify.classyfire.data.category.CategoryType
+import com.github.hannotify.classyfire.data.classification.ClassificationRepository
+import com.github.hannotify.classyfire.data.transaction.TransactionRepository
 import java.nio.file.Path
-import java.util.stream.Collectors
 
-class Ui {
-    fun print() {
+class Ui(transactionsFilePath: String) {
+    private val categoryRepository: CategoryRepository =
+            CategoryRepository(Path.of("src/test/resources/categories.txt"))
+    private val transactionRepository: TransactionRepository =
+            TransactionRepository(Path.of("src/test/resources/test.csv"))
+    private val classificationRepository: ClassificationRepository =
+            ClassificationRepository(Path.of("src/test/resources/test-output.csv"))
+
+    init {
+        categoryRepository.retrieve()
+        transactionRepository.retrieve()
+    }
+
+    fun start() {
         clearScreen()
-        printCategories()
-        //printInput()
+        //processTransactions(transactionRepository.findAll())
+        persistClassifications()
     }
 
     private fun clearScreen() {
@@ -18,28 +30,25 @@ class Ui {
         System.out.flush();
     }
 
-    private fun printCategories() {
-        val categoryRepository = CategoryRepository(Path.of("src/test/resources/categories.txt"))
-        categoryRepository.retrieve();
-        val categories = categoryRepository.findAll();
+    private fun persistClassifications() {
+        classificationRepository.persist()
+    }
 
-        val subcategoriesByType = categories.stream()
-                .filter(Category::isSubcategory)
-                .collect(Collectors.groupingBy(Category::categoryType))
-
+    private fun printIncomeCategories() {
         println("Income Categories:")
+        printCategories(categoryRepository.findIncomeSubcategories())
+    }
 
-        val incomeSubcategories = subcategoriesByType[CategoryType.INCOME]
-        val paddingForIncomeSubcategories = incomeSubcategories?.size.toString().length
-        incomeSubcategories?.forEachIndexed { index, element ->
-            println("${index.toString().padStart(paddingForIncomeSubcategories)} - $element")
+    private fun printExpenseCategories() {
+        println("Expense Categories:")
+        printCategories(categoryRepository.findExpenseSubcategories())
+    }
+
+    private fun printCategories(categories: Collection<Category>) {
+        val padding = categories.size.toString().length
+        categories.forEachIndexed { index, element ->
+            println("${index.toString().padStart(padding)} - $element")
         }
         println()
-        println("Expense Categories:")
-        val expenseSubcategories = subcategoriesByType[CategoryType.EXPENSES]
-        val paddingForExpenseSubcategories = expenseSubcategories?.size.toString().length
-        expenseSubcategories?.forEachIndexed { index, element ->
-            println("${(index + incomeSubcategories?.size!!).toString().padStart(paddingForExpenseSubcategories)} - $element")
-        }
     }
 }
