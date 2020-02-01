@@ -9,6 +9,7 @@ import java.nio.file.Path
 import java.util.*
 
 class ClassificationRepository(private val storageLocation: Path) : PersistRepository<Classification> {
+    override val entities: SortedSet<Classification> = TreeSet()
     private val classificationPersister = ClassificationPersisterFactory.newClassificationPersister(ClassificationFormat.ING_CSV)
 
     override fun stringFromEntity(entity: Classification): String = classificationPersister.persist(entity)

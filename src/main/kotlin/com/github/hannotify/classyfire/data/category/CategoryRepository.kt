@@ -3,9 +3,11 @@ package com.github.hannotify.classyfire.data.category
 import com.github.hannotify.classyfire.data.PersistRepository
 import com.github.hannotify.classyfire.data.RetrieveRepository
 import java.nio.file.Path
+import java.util.*
 import java.util.stream.Collectors
 
 class CategoryRepository(private val storageLocation: Path) : RetrieveRepository<Category>, PersistRepository<Category> {
+    override val entities: SortedSet<Category> = TreeSet()
 
     fun findIncomeSubcategories(): Collection<Category> {
         return findSubcategoriesByCategoryType(CategoryType.INCOME)

@@ -5,7 +5,6 @@ import java.util.*
 
 interface Repository<E> {
     val entities: SortedSet<E>
-        get() = TreeSet<E>()
 
     fun storageLocation(): Path
 

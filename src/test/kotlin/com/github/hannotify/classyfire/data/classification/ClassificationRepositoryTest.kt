@@ -1,24 +1,22 @@
-package com.github.hannotify.classyfire.output.impl
+package com.github.hannotify.classyfire.data.classification
 
-import com.github.hannotify.classyfire.data.classification.Classification
-import com.github.hannotify.classyfire.output.OutputWriter
 import com.github.hannotify.classyfire.testdata.Categories
 import com.github.hannotify.classyfire.testdata.Transactions
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.test.Test
 
-internal class CsvOutputWriterTest {
-    private val outputWriter: OutputWriter = CsvOutputWriter()
+internal class ClassificationRepositoryTest {
+    private val classificationRepository = ClassificationRepository(Path.of("src/test/resources/test-output.txt"))
     private val classifications: Collection<Classification> = listOf(
             Classification(Transactions.waterTransaction, Categories.waterSubcategory, 0.75f),
             Classification(Transactions.salaryTransaction, Categories.salarySubcategory, 0.95f)
     )
 
     @Test
-    fun write() {
+    fun saveAllAndPersist_resultsInACorrectCsvFile() {
         // Arrange
         val outputFilePath = Path.of("src/test/resources/test-output.csv")
         val expectedCsvContent = """
@@ -28,7 +26,8 @@ internal class CsvOutputWriterTest {
         """.trimIndent()
 
         // Act
-        outputWriter.write(classifications, outputFilePath)
+        classificationRepository.saveAll(classifications)
+        classificationRepository.persist()
 
         // Assert
         assertTrue(Files.exists(outputFilePath))
