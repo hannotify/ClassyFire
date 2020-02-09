@@ -5,14 +5,14 @@ import com.github.hannotify.classyfire.testdata.Categories.Companion.salarySubca
 import com.github.hannotify.classyfire.testdata.Categories.Companion.waterSubcategory
 import com.github.hannotify.classyfire.testdata.Transactions.Companion.salaryTransaction
 import com.github.hannotify.classyfire.testdata.Transactions.Companion.waterTransaction
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-internal class ClassifierProxyTest {
+public class ClassifierProxyTest {
     private val classifier: ClassifierProxy = ClassifierProxy()
 
-    @BeforeTest
+    @BeforeEach
     fun learn() {
         // Arrange
         classifier.learn(salarySubcategory, salaryTransaction)

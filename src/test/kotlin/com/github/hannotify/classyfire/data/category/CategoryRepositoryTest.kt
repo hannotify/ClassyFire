@@ -1,11 +1,11 @@
 package com.github.hannotify.classyfire.data.category
 
 import com.github.hannotify.classyfire.testdata.Categories
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import java.nio.file.Path
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
-internal class CategoryRepositoryTest {
+public class CategoryRepositoryTest {
     private val categoryRepository = CategoryRepository(Path.of("src/test/resources/categories.txt"))
 
     @Test

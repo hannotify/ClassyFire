@@ -1,10 +1,7 @@
 package com.github.hannotify.classyfire.data.classification
 
 import com.github.hannotify.classyfire.data.PersistRepository
-import com.github.hannotify.classyfire.data.Repository
-import com.github.hannotify.classyfire.data.classification.persister.ClassificationPersister
 import com.github.hannotify.classyfire.data.classification.persister.ClassificationPersisterFactory
-import com.github.hannotify.classyfire.data.classification.persister.IngCsvClassificationPersister
 import java.nio.file.Path
 import java.util.*
 

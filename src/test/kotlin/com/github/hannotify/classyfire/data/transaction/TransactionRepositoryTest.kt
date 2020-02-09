@@ -1,8 +1,8 @@
 package com.github.hannotify.classyfire.data.transaction
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import java.nio.file.Path
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 internal class TransactionRepositoryTest {
     // Arrange

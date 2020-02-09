@@ -2,11 +2,11 @@ package com.github.hannotify.classyfire.data.classification
 
 import com.github.hannotify.classyfire.testdata.Categories
 import com.github.hannotify.classyfire.testdata.Transactions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-import kotlin.test.Test
 
 internal class ClassificationRepositoryTest {
     private val classificationRepository = ClassificationRepository(Path.of("src/test/resources/test-output.txt"))

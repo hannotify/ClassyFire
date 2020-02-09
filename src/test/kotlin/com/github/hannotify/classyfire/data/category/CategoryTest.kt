@@ -1,10 +1,10 @@
 package com.github.hannotify.classyfire.data.category
 
 import com.github.hannotify.classyfire.testdata.Categories
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
-internal class CategoryTest {
+class CategoryTest {
 
     @Test
     fun toString_shouldReturnTheRightStringRepresentation() {

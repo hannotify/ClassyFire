@@ -29,9 +29,11 @@ dependencies {
     implementation("com.github.ptnplanet:Java-Naive-Bayes-Classifier:1.0.7")
     implementation("com.github.ajalt:clikt:2.4.0")
 
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation("org.assertj:assertj-core:3.15.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.0")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 application {

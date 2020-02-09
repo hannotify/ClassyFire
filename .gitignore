@@ -8,7 +8,11 @@ build/
 
 #Test results
 .kotlintest/
+out/
 
 #Test bank statements and categories
 src/test/resources/*.csv
 src/test/resources/*.txt
+
+#Mac
+.DS_Store
