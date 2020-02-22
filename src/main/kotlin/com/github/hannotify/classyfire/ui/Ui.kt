@@ -4,8 +4,9 @@ import com.github.hannotify.classyfire.data.category.Category
 import com.github.hannotify.classyfire.data.category.CategoryRepository
 import com.github.hannotify.classyfire.data.category.CategoryType
 import com.github.hannotify.classyfire.data.classification.ClassificationRepository
-import com.github.hannotify.classyfire.data.transaction.Transaction
 import com.github.hannotify.classyfire.data.transaction.TransactionRepository
+import com.github.hannotify.classyfire.ui.statemachine.State
+import com.github.hannotify.classyfire.ui.statemachine.StateContext
 import java.nio.file.Path
 
 class Ui(transactionsFilePath: String) {
@@ -15,6 +16,8 @@ class Ui(transactionsFilePath: String) {
             TransactionRepository(Path.of("src/test/resources/test.csv"))
     private val classificationRepository: ClassificationRepository =
             ClassificationRepository(Path.of("src/test/resources/test-output.csv"))
+    private val stateContext: StateContext =
+            StateContext(categoryRepository, transactionRepository, classificationRepository, this)
 
     init {
         categoryRepository.retrieve()
@@ -22,39 +25,19 @@ class Ui(transactionsFilePath: String) {
     }
 
     fun start() {
-        clearScreen()
-        processTransactions()
-        persistClassifications()
+        var state: State?
+
+        do {
+            state = stateContext.nextState()
+        } while (state != null)
     }
 
-    private fun clearScreen() {
-        print("\u001b[H\u001b[2J");
-        System.out.flush();
+    internal fun clearScreen() {
+        print("\u001b[H\u001b[2J")
+        System.out.flush()
     }
 
-    private fun processTransactions() {
-        processTransactions(CategoryType.INCOME)
-        processTransactions(CategoryType.EXPENSES)
-    }
-
-    private fun processTransactions(categoryType: CategoryType) {
-        val transactions = transactionRepository.findTransactionsByCategoryType(categoryType)
-        transactions.forEachIndexed { index, transaction ->
-            printCategoriesByCategoryType(categoryType)
-            transaction.print(index, transactions.size)
-            print("Enter category: ")
-            val userInput = readLine()
-            clearScreen()
-            println("User entered $userInput!")
-            println()
-        }
-    }
-
-    private fun persistClassifications() {
-        classificationRepository.persist()
-    }
-
-    private fun printCategoriesByCategoryType(categoryType: CategoryType) {
+    internal fun printCategoriesByCategoryType(categoryType: CategoryType) {
         println("Categories ($categoryType):")
         printCategories(categoryRepository.findSubcategoriesByCategoryType(categoryType))
     }
