@@ -8,7 +8,7 @@ interface Repository<E> {
 
     fun storageLocation(): Path
 
-    fun findAll(): Collection<E> {
+    fun findAll(): Set<E> {
         return entities;
     }
 

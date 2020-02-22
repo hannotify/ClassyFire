@@ -2,7 +2,9 @@ package com.github.hannotify.classyfire.ui
 
 import com.github.hannotify.classyfire.data.category.Category
 import com.github.hannotify.classyfire.data.category.CategoryRepository
+import com.github.hannotify.classyfire.data.category.CategoryType
 import com.github.hannotify.classyfire.data.classification.ClassificationRepository
+import com.github.hannotify.classyfire.data.transaction.Transaction
 import com.github.hannotify.classyfire.data.transaction.TransactionRepository
 import java.nio.file.Path
 
@@ -21,7 +23,7 @@ class Ui(transactionsFilePath: String) {
 
     fun start() {
         clearScreen()
-        //processTransactions(transactionRepository.findAll())
+        processTransactions()
         persistClassifications()
     }
 
@@ -30,18 +32,31 @@ class Ui(transactionsFilePath: String) {
         System.out.flush();
     }
 
+    private fun processTransactions() {
+        processTransactions(CategoryType.INCOME)
+        processTransactions(CategoryType.EXPENSES)
+    }
+
+    private fun processTransactions(categoryType: CategoryType) {
+        val transactions = transactionRepository.findTransactionsByCategoryType(categoryType)
+        transactions.forEachIndexed { index, transaction ->
+            printCategoriesByCategoryType(categoryType)
+            transaction.print(index, transactions.size)
+            print("Enter category: ")
+            val userInput = readLine()
+            clearScreen()
+            println("User entered $userInput!")
+            println()
+        }
+    }
+
     private fun persistClassifications() {
         classificationRepository.persist()
     }
 
-    private fun printIncomeCategories() {
-        println("Income Categories:")
-        printCategories(categoryRepository.findIncomeSubcategories())
-    }
-
-    private fun printExpenseCategories() {
-        println("Expense Categories:")
-        printCategories(categoryRepository.findExpenseSubcategories())
+    private fun printCategoriesByCategoryType(categoryType: CategoryType) {
+        println("Categories ($categoryType):")
+        printCategories(categoryRepository.findSubcategoriesByCategoryType(categoryType))
     }
 
     private fun printCategories(categories: Collection<Category>) {

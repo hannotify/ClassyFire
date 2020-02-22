@@ -9,15 +9,7 @@ import java.util.stream.Collectors
 class CategoryRepository(private val storageLocation: Path) : RetrieveRepository<Category>, PersistRepository<Category> {
     override val entities: SortedSet<Category> = TreeSet()
 
-    fun findIncomeSubcategories(): Collection<Category> {
-        return findSubcategoriesByCategoryType(CategoryType.INCOME)
-    }
-
-    fun findExpenseSubcategories(): Collection<Category> {
-        return findSubcategoriesByCategoryType(CategoryType.EXPENSES)
-    }
-
-    private fun findSubcategoriesByCategoryType(categoryType: CategoryType):
+    fun findSubcategoriesByCategoryType(categoryType: CategoryType):
             Collection<Category> {
         return findAll().stream()
                 .filter { it.isSubcategory() }
