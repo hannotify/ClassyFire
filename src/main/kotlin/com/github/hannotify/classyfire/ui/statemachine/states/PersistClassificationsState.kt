@@ -5,7 +5,8 @@ import com.github.hannotify.classyfire.ui.statemachine.StateContext
 
 class PersistClassificationsState : State {
     override fun next(stateContext: StateContext): State? {
-        stateContext.classificationRepository.persist()
+        stateContext.classificationService.persist()
+        println("Saved ${stateContext.classificationService.classificationCount()} classifications to file ${stateContext.classificationService.storageLocation()}.")
         return null
     }
 

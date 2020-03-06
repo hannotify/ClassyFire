@@ -1,15 +1,14 @@
 package com.github.hannotify.classyfire.data
 
 import java.nio.file.Path
-import java.util.*
 
 interface Repository<E> {
-    val entities: SortedSet<E>
+    val entities: MutableList<E>
 
     fun storageLocation(): Path
 
-    fun findAll(): Set<E> {
-        return entities;
+    fun findAll(): MutableList<E> {
+        return entities
     }
 
     fun save(entity: E) {

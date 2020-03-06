@@ -1,6 +1,6 @@
 package com.github.hannotify.classyfire.classification
 
-import com.github.hannotify.classyfire.process.ClassifierProxy
+import com.github.hannotify.classyfire.process.ClassificationService
 import com.github.hannotify.classyfire.testdata.Categories.Companion.salarySubcategory
 import com.github.hannotify.classyfire.testdata.Categories.Companion.waterSubcategory
 import com.github.hannotify.classyfire.testdata.Transactions.Companion.salaryTransaction
@@ -8,9 +8,10 @@ import com.github.hannotify.classyfire.testdata.Transactions.Companion.waterTran
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.nio.file.Path
 
-public class ClassifierProxyTest {
-    private val classifier: ClassifierProxy = ClassifierProxy()
+public class ClassificationServiceTest {
+    private val classifier: ClassificationService = ClassificationService(Path.of(""))
 
     @BeforeEach
     fun learn() {

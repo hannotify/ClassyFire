@@ -11,7 +11,7 @@ import java.util.stream.Collectors
 
 class TransactionRepository(private val storageLocation: Path,
                             transactionFormat: TransactionFormat = ING_CSV) : RetrieveRepository<Transaction> {
-    override val entities: SortedSet<Transaction> = TreeSet()
+    override val entities: MutableList<Transaction> = ArrayList()
     private val transactionCreator = TransactionRetrieverFactory.newTransactionRetriever(transactionFormat)
 
     fun findTransactionsByCategoryType(categoryType: CategoryType): SortedSet<Transaction> {

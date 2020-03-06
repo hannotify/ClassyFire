@@ -7,14 +7,14 @@ import java.util.*
 import java.util.stream.Collectors
 
 class CategoryRepository(private val storageLocation: Path) : RetrieveRepository<Category>, PersistRepository<Category> {
-    override val entities: SortedSet<Category> = TreeSet()
+    override val entities: MutableList<Category> = ArrayList()
 
     fun findSubcategoriesByCategoryType(categoryType: CategoryType):
-            Collection<Category> {
+            List<Category> {
         return findAll().stream()
                 .filter { it.isSubcategory() }
                 .filter { categoryType == it.categoryType }
-                .collect(Collectors.toSet())
+                .collect(Collectors.toUnmodifiableList())
     }
 
     override fun entityFromString(string: String): Category = Category.fromString(string)

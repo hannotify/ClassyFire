@@ -1,5 +1,6 @@
 package com.github.hannotify.classyfire.data.transaction
 
+import com.github.hannotify.classyfire.data.category.CategoryType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,7 +31,7 @@ internal class TransactionRepositoryTest {
     @Test
     fun findIncomeTransactions_shouldFindIncomeTransactionsOnly() {
         // Act
-        val incomeTransactions = transactionRepository.findTransactionsByCategoryType()
+        val incomeTransactions = transactionRepository.findTransactionsByCategoryType(CategoryType.INCOME)
 
         // Assert
         assertEquals(17, incomeTransactions.size)
@@ -42,7 +43,7 @@ internal class TransactionRepositoryTest {
     @Test
     fun findExpenseTransactions_shouldFindExpenseTransactionsOnly() {
         // Act
-        val expenseTransactions = transactionRepository.findExpenseTransactions()
+        val expenseTransactions = transactionRepository.findTransactionsByCategoryType(CategoryType.EXPENSES)
 
         // Assert
         assertEquals(79, expenseTransactions.size)
