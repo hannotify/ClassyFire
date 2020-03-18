@@ -11,8 +11,8 @@ build/
 out/
 
 #Test bank statements and categories
-src/test/resources/*.csv
-src/test/resources/*.txt
+src/test/resources/**/*.csv
+src/test/resources/**/*.txt
 
 #Mac
 .DS_Store

@@ -9,48 +9,53 @@ abstract class ProcessTransactionsState : State {
     private val supportedExitCommands = arrayOf("exit", "quit")
 
     protected fun processTransactions(categoryType: CategoryType, stateContext: StateContext): Boolean {
-        stateContext.clearScreen()
+        //stateContext.clearScreen()
 
         val transactions = stateContext.transactionRepository.findTransactionsByCategoryType(categoryType)
         transactions.forEachIndexed { index, transaction ->
             stateContext.printCategoriesByCategoryType(categoryType)
             transaction.print(index, transactions.size)
+            val classification = stateContext.classify(transaction)
+            val guessedCategoryId = stateContext.categories.indexOf(classification.category)
+
+            println("My guess is: '$guessedCategoryId - ${classification.category}' (${classification.probability}%).")
 
             var userInput: String
-            var categoryId: Int?
+            var enteredCategoryId: Int?
             do {
-                print("Enter category: ")
+                print("Enter category (press enter to use '$guessedCategoryId'): ")
                 userInput = readLine().toString()
-                categoryId = userInput.toIntOrNull()
-            } while (!isUserInputValid(userInput, categoryId, stateContext.categories.size))
+                enteredCategoryId = userInput.toIntOrNull()
 
-            if (!processUserInput(userInput, transaction, categoryId, stateContext)) {
+            } while (!isUserInputValid(userInput, enteredCategoryId, stateContext.categories.size))
+
+            if (!processUserInput(userInput, transaction, guessedCategoryId, enteredCategoryId, stateContext)) {
                 return false
             }
 
             stateContext.clearScreen()
-            println("User entered $userInput!")
         }
         return true
     }
 
-    private fun isUserInputValid(userInput: String, categoryId: Int?, categoryCount: Int): Boolean =
-            userInput.isNotBlank() &&
-                    (supportedExitCommands.contains(userInput) ||
-                            (categoryId != null && categoryId >= 0 && categoryId < categoryCount))
+    private fun isUserInputValid(userInput: String, enteredCategoryId: Int?, categoryCount: Int): Boolean {
+        return userInput.isBlank() || supportedExitCommands.contains(userInput) ||
+                (enteredCategoryId != null && enteredCategoryId >= 0 && enteredCategoryId < categoryCount)
+    }
 
-    private fun processUserInput(userInput: String, transaction: Transaction, categoryId: Int?,
-                                 stateContext: StateContext): Boolean {
-        // numeriek
-        if (categoryId != null) {
-            // haal categorie op o.b.v. nummer
-            val chosenCategory = stateContext.categories[categoryId]
+    private fun processUserInput(userInput: String, transaction: Transaction, guessedCategoryId: Int,
+                                 enteredCategoryId: Int?, stateContext: StateContext): Boolean {
 
-            // sla op als trainingsdata
-            stateContext.classificationService.saveAndLearn(chosenCategory, transaction)
-        } else if (supportedExitCommands.contains(userInput)) {
+        if (supportedExitCommands.contains(userInput)) {
             return false
         }
+
+        // haal categorie op o.b.v. nummer
+        val categoryId = enteredCategoryId ?: guessedCategoryId
+        val chosenCategory = stateContext.categories[categoryId]
+
+        // sla op als trainingsdata
+        stateContext.classificationService.saveAndLearn(chosenCategory, transaction)
 
         return true
     }

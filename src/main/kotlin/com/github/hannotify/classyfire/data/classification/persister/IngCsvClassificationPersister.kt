@@ -4,6 +4,8 @@ import com.github.hannotify.classyfire.data.classification.Classification
 import java.util.stream.Collectors
 
 class IngCsvClassificationPersister : ClassificationPersister {
+    private val DELIMITER = ";"
+
     override fun persist(classification: Classification): String {
         return listOf(classification.transaction.date.toString(),
                 classification.transaction.description,
@@ -12,6 +14,10 @@ class IngCsvClassificationPersister : ClassificationPersister {
                 classification.transaction.transactionType,
                 classification.transaction.remarks,
                 classification.category.toString()).stream()
-                .collect(Collectors.joining(";"))
+                .collect(Collectors.joining(DELIMITER))
+    }
+
+    override fun getCategoryString(classificationString: String): String {
+        return classificationString.substringAfterLast(DELIMITER)
     }
 }

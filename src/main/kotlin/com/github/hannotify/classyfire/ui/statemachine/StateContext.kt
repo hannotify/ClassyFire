@@ -3,15 +3,18 @@ package com.github.hannotify.classyfire.ui.statemachine
 import com.github.hannotify.classyfire.data.category.Category
 import com.github.hannotify.classyfire.data.category.CategoryRepository
 import com.github.hannotify.classyfire.data.category.CategoryType
+import com.github.hannotify.classyfire.data.classification.Classification
 import com.github.hannotify.classyfire.data.classification.ClassificationRepository
+import com.github.hannotify.classyfire.data.transaction.Transaction
 import com.github.hannotify.classyfire.data.transaction.TransactionRepository
 import com.github.hannotify.classyfire.process.ClassificationService
 import com.github.hannotify.classyfire.ui.Ui
+import com.github.hannotify.classyfire.ui.statemachine.states.ProcessTrainingDataState
 import com.github.hannotify.classyfire.ui.statemachine.states.RetrieveCategoriesState
 
 class StateContext(val categoryRepository: CategoryRepository, val transactionRepository: TransactionRepository,
                    val classificationService: ClassificationService) {
-    var state: State? = RetrieveCategoriesState()
+    var state: State? = ProcessTrainingDataState()
     lateinit var categories: List<Category>
 
     fun nextState(): State? {
@@ -37,4 +40,6 @@ class StateContext(val categoryRepository: CategoryRepository, val transactionRe
         }
         println()
     }
+
+    internal fun classify(transaction: Transaction): Classification = classificationService.classify(transaction)
 }

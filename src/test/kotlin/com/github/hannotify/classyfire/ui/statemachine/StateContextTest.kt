@@ -16,9 +16,9 @@ internal class StateContextTest {
     @BeforeEach
     internal fun setup() {
         stateContext = StateContext(
-                CategoryRepository(Path.of("src/test/resources/categories.txt")),
-                TransactionRepository(Path.of("src/test/resources/test.csv")),
-                ClassificationService(Path.of("src/test/resources/test-output.txt")))
+                CategoryRepository(Path.of("src/test/resources/categories/categories.txt")),
+                TransactionRepository(Path.of("src/test/resources/transactions/test.csv")),
+                ClassificationService(Path.of("src/test/resources/classifications/test-output.txt")))
     }
 
     @Test

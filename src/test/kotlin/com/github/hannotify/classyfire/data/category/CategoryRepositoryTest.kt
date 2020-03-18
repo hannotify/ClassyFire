@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Path
 
 public class CategoryRepositoryTest {
-    private val categoryRepository = CategoryRepository(Path.of("src/test/resources/categories.txt"))
+    private val categoryRepository = CategoryRepository(Path.of("src/test/resources/categories/categories.txt"))
 
     @Test
     internal fun save_addsCategory() {
@@ -32,7 +32,7 @@ public class CategoryRepositoryTest {
         // Act
         categoryRepository.persist()
 
-        val secondCategoryRepository = CategoryRepository(Path.of("src/test/resources/categories.txt"))
+        val secondCategoryRepository = CategoryRepository(Path.of("src/test/resources/categories/categories.txt"))
         secondCategoryRepository.retrieve()
 
         // Assert

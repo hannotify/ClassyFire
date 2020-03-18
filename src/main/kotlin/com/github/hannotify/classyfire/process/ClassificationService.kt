@@ -6,6 +6,7 @@ import com.github.hannotify.classyfire.data.classification.ClassificationReposit
 import com.github.hannotify.classyfire.data.transaction.Transaction
 import de.daslaboratorium.machinelearning.classifier.Classifier
 import de.daslaboratorium.machinelearning.classifier.bayes.BayesClassifier
+import java.io.File
 import java.nio.file.Path
 
 class ClassificationService(classificationPath: Path) {
@@ -27,6 +28,7 @@ class ClassificationService(classificationPath: Path) {
     }
 
     internal fun learn(category: Category, transaction: Transaction) {
+        println("Learning: Category '$category' for transaction $transaction.")
         classifier.learn(category, transaction.toStringCollection())
     }
 
@@ -37,7 +39,13 @@ class ClassificationService(classificationPath: Path) {
     }
 
     fun processTrainingData() {
-        // TODO: lees alle eerdere weggescheven bestanden uit en roep voor elke Classification learn(.., ..) aan.
-
+        File("src/test/resources/classifications").walk()
+                .filter { it.extension == "csv" }
+                .map { ClassificationRepository(it.toPath()) }
+                .forEach { classificationRepository ->
+                    classificationRepository.retrieve()
+                    classificationRepository.findAll().stream()
+                            .forEach { learn(it.category, it.transaction) }
+                }
     }
 }
