@@ -28,24 +28,31 @@ class ClassificationService(classificationPath: Path) {
     }
 
     internal fun learn(category: Category, transaction: Transaction) {
-        println("Learning: Category '$category' for transaction $transaction.")
         classifier.learn(category, transaction.toStringCollection())
     }
 
-    fun classify(transaction: Transaction): Classification {
+    fun classify(transaction: Transaction): Classification? {
         val internalClassification = classifier.classify(transaction.toStringCollection())
 
-        return Classification(transaction, internalClassification.category, internalClassification.probability)
+        return if (internalClassification == null)
+            null
+        else
+            Classification(transaction, internalClassification.category, internalClassification.probability)
     }
 
-    fun processTrainingData() {
+    fun processTrainingData(): List<Transaction> {
+        val processedTransactions: MutableList<Transaction> = mutableListOf()
         File("src/test/resources/classifications").walk()
                 .filter { it.extension == "csv" }
                 .map { ClassificationRepository(it.toPath()) }
                 .forEach { classificationRepository ->
                     classificationRepository.retrieve()
                     classificationRepository.findAll().stream()
-                            .forEach { learn(it.category, it.transaction) }
+                            .forEach {
+                                learn(it.category, it.transaction)
+                                processedTransactions.add(it.transaction)
+                            }
                 }
+        return processedTransactions
     }
 }

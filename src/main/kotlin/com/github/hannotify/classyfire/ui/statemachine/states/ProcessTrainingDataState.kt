@@ -5,7 +5,7 @@ import com.github.hannotify.classyfire.ui.statemachine.StateContext
 
 class ProcessTrainingDataState : State {
     override fun next(stateContext: StateContext): State? {
-        stateContext.classificationService.processTrainingData()
+        stateContext.processTrainingData()
         return RetrieveCategoriesState()
     }
 }

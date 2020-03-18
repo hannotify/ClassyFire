@@ -9,21 +9,32 @@ abstract class ProcessTransactionsState : State {
     private val supportedExitCommands = arrayOf("exit", "quit")
 
     protected fun processTransactions(categoryType: CategoryType, stateContext: StateContext): Boolean {
-        //stateContext.clearScreen()
+        stateContext.clearScreen()
 
         val transactions = stateContext.transactionRepository.findTransactionsByCategoryType(categoryType)
         transactions.forEachIndexed { index, transaction ->
+            if (stateContext.processedTransactions.contains(transaction)) return@forEachIndexed
+
             stateContext.printCategoriesByCategoryType(categoryType)
             transaction.print(index, transactions.size)
             val classification = stateContext.classify(transaction)
-            val guessedCategoryId = stateContext.categories.indexOf(classification.category)
+            var guessedCategoryId: Int? = null
 
-            println("My guess is: '$guessedCategoryId - ${classification.category}' (${classification.probability}%).")
+            if (classification != null) {
+                guessedCategoryId = stateContext.categories.indexOf(classification.category)
+                println("My guess is: '$guessedCategoryId - ${classification.category}' (${classification.probability}%).")
+            }
 
             var userInput: String
             var enteredCategoryId: Int?
             do {
-                print("Enter category (press enter to use '$guessedCategoryId'): ")
+                print("Enter category")
+
+                if (guessedCategoryId != null) {
+                    print(" (press enter to use '$guessedCategoryId')")
+                }
+
+                print(": ")
                 userInput = readLine().toString()
                 enteredCategoryId = userInput.toIntOrNull()
 
@@ -43,7 +54,7 @@ abstract class ProcessTransactionsState : State {
                 (enteredCategoryId != null && enteredCategoryId >= 0 && enteredCategoryId < categoryCount)
     }
 
-    private fun processUserInput(userInput: String, transaction: Transaction, guessedCategoryId: Int,
+    private fun processUserInput(userInput: String, transaction: Transaction, guessedCategoryId: Int?,
                                  enteredCategoryId: Int?, stateContext: StateContext): Boolean {
 
         if (supportedExitCommands.contains(userInput)) {
@@ -52,7 +63,7 @@ abstract class ProcessTransactionsState : State {
 
         // haal categorie op o.b.v. nummer
         val categoryId = enteredCategoryId ?: guessedCategoryId
-        val chosenCategory = stateContext.categories[categoryId]
+        val chosenCategory = stateContext.categories[categoryId!!]
 
         // sla op als trainingsdata
         stateContext.classificationService.saveAndLearn(chosenCategory, transaction)

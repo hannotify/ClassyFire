@@ -11,11 +11,13 @@ import com.github.hannotify.classyfire.process.ClassificationService
 import com.github.hannotify.classyfire.ui.Ui
 import com.github.hannotify.classyfire.ui.statemachine.states.ProcessTrainingDataState
 import com.github.hannotify.classyfire.ui.statemachine.states.RetrieveCategoriesState
+import java.util.stream.Collectors
 
 class StateContext(val categoryRepository: CategoryRepository, val transactionRepository: TransactionRepository,
                    val classificationService: ClassificationService) {
     var state: State? = ProcessTrainingDataState()
     lateinit var categories: List<Category>
+    lateinit var processedTransactions: List<Transaction>
 
     fun nextState(): State? {
         state = state?.next(this)
@@ -41,5 +43,9 @@ class StateContext(val categoryRepository: CategoryRepository, val transactionRe
         println()
     }
 
-    internal fun classify(transaction: Transaction): Classification = classificationService.classify(transaction)
+    internal fun classify(transaction: Transaction): Classification? = classificationService.classify(transaction)
+
+    fun processTrainingData() {
+        processedTransactions = classificationService.processTrainingData()
+    }
 }
