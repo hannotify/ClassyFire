@@ -14,5 +14,9 @@ out/
 src/test/resources/**/*.csv
 src/test/resources/**/*.txt
 
+#Real bank statements and categories
+src/main/resources/**/*.csv
+src/main/resources/**/*.txt
+
 #Mac
 .DS_Store

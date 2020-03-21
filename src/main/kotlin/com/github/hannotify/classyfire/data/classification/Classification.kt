@@ -13,7 +13,7 @@ class Classification (val transaction: Transaction, val category: Category, val 
     companion object {
         fun fromString(classificationAsString: String): Classification {
             val transaction = TransactionRetrieverFactory.newTransactionRetriever(TransactionFormat.CLASSY_FIRE_CSV)
-                    .retrieve(classificationAsString.substringBeforeLast(";"))
+                    .retrieve(classificationAsString.substringBeforeLast("\t"))
 
             val category = Category.fromString(ClassificationPersisterFactory.newClassificationPersister(
                     ClassificationFormat.ING_CSV).getCategoryString(classificationAsString))

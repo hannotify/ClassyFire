@@ -13,7 +13,9 @@ abstract class ProcessTransactionsState : State {
 
         val transactions = stateContext.transactionRepository.findTransactionsByCategoryType(categoryType)
         transactions.forEachIndexed { index, transaction ->
-            if (stateContext.processedTransactions.contains(transaction)) return@forEachIndexed
+            if (stateContext.processedTransactions.contains(transaction)) {
+                return@forEachIndexed
+            }
 
             stateContext.printCategoriesByCategoryType(categoryType)
             transaction.print(index, transactions.size)

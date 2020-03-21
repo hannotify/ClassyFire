@@ -9,7 +9,7 @@ import de.daslaboratorium.machinelearning.classifier.bayes.BayesClassifier
 import java.io.File
 import java.nio.file.Path
 
-class ClassificationService(classificationPath: Path) {
+class ClassificationService(private val classificationPath: Path) {
     private val classifier: Classifier<String, Category> = BayesClassifier()
     private val classificationRepository: ClassificationRepository =
             ClassificationRepository(classificationPath)
@@ -42,7 +42,8 @@ class ClassificationService(classificationPath: Path) {
 
     fun processTrainingData(): List<Transaction> {
         val processedTransactions: MutableList<Transaction> = mutableListOf()
-        File("src/test/resources/classifications").walk()
+
+        classificationPath.parent.toFile().walk()
                 .filter { it.extension == "csv" }
                 .map { ClassificationRepository(it.toPath()) }
                 .forEach { classificationRepository ->

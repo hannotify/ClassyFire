@@ -5,7 +5,13 @@ import java.io.FileOutputStream
 
 interface PersistRepository<E> : Repository<E> {
     fun persist() {
-        FileOutputStream(File(storageLocation().toString()), true).bufferedWriter().use { out ->
+        val targetFile = File(storageLocation().toString())
+
+        if (!targetFile.exists()) {
+            targetFile.createNewFile()
+        }
+
+        FileOutputStream(targetFile, true).bufferedWriter().use { out ->
             findAll().forEach { out.appendln(stringFromEntity(it)) }
         }
     }

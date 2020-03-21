@@ -15,7 +15,7 @@ data class Transaction(val date: LocalDate, val description: String, val benefic
     }
 
     override fun compareTo(other: Transaction): Int = compareValuesBy(
-            this, other, { it.date }, { it.description }, { it.remarks }, { it.beneficiaryIban}, { it.amount })
+                this, other, { it.date }, { it.description }, { it.remarks }, { it.beneficiaryIban }, { it.amount })
 
     fun print(index: Int, size: Int) {
         val transactionHeader = "Transaction #${index + 1}/$size"
