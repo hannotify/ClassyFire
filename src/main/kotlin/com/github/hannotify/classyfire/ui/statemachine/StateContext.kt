@@ -4,18 +4,15 @@ import com.github.hannotify.classyfire.data.category.Category
 import com.github.hannotify.classyfire.data.category.CategoryRepository
 import com.github.hannotify.classyfire.data.category.CategoryType
 import com.github.hannotify.classyfire.data.classification.Classification
-import com.github.hannotify.classyfire.data.classification.ClassificationRepository
 import com.github.hannotify.classyfire.data.transaction.Transaction
 import com.github.hannotify.classyfire.data.transaction.TransactionRepository
 import com.github.hannotify.classyfire.process.ClassificationService
-import com.github.hannotify.classyfire.ui.Ui
-import com.github.hannotify.classyfire.ui.statemachine.states.ProcessTrainingDataState
 import com.github.hannotify.classyfire.ui.statemachine.states.RetrieveCategoriesState
-import java.util.stream.Collectors
+import kotlin.math.ceil
 
 class StateContext(val categoryRepository: CategoryRepository, val transactionRepository: TransactionRepository,
                    val classificationService: ClassificationService) {
-    var state: State? = ProcessTrainingDataState()
+    var state: State? = RetrieveCategoriesState()
     lateinit var categories: List<Category>
     lateinit var processedTransactions: List<Transaction>
 
@@ -35,17 +32,33 @@ class StateContext(val categoryRepository: CategoryRepository, val transactionRe
         printCategories(categories)
     }
 
-    private fun printCategories(categories: Collection<Category>) {
+    private fun printCategories(categories: List<Category>) {
+        val splitSize = categories.size / 2
         val padding = categories.size.toString().length
-        categories.forEachIndexed { index, element ->
-            println("${index.toString().padStart(padding)} - $element")
+        val categoryMap = categories.withIndex()
+                .groupBy { it.index % splitSize }
+                .map { c -> c.value.map { it.value } }
+                .toMutableList()
+
+        if (categories.size % 2 != 0) {
+            // TODO: do something to expand the second column
+            categoryMap.add(listOf(null, categories[categories.size - 1]) as List<Category>)
         }
+
+
+        // 2 columns:
+        categoryMap.forEachIndexed { index, pairList ->
+            println("%-60.60s %-60.60s".format(
+                    if (pairList[0] != null) "${index.toString().padStart(padding)} - ${pairList[0]}" else "",
+                    "${(index + splitSize).toString().padStart(padding)} - ${pairList[1]}"))
+        }
+
         println()
     }
 
     internal fun classify(transaction: Transaction): Classification? = classificationService.classify(transaction)
 
-    fun processTrainingData() {
-        processedTransactions = classificationService.processTrainingData()
+    fun processTrainingData(categoryType: CategoryType) {
+        processedTransactions = classificationService.processTrainingData(categoryType)
     }
 }

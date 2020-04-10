@@ -12,6 +12,6 @@ class ProcessIncomeTransactionsState : ProcessTransactionsState() {
         }
 
         // regular flow
-        return ProcessExpensesTransactionsState()
+        return ProcessTrainingDataState(CategoryType.EXPENSES)
     }
 }

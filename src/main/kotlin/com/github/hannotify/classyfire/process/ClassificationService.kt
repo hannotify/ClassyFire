@@ -1,6 +1,7 @@
 package com.github.hannotify.classyfire.process
 
 import com.github.hannotify.classyfire.data.category.Category
+import com.github.hannotify.classyfire.data.category.CategoryType
 import com.github.hannotify.classyfire.data.classification.Classification
 import com.github.hannotify.classyfire.data.classification.ClassificationRepository
 import com.github.hannotify.classyfire.data.transaction.Transaction
@@ -23,6 +24,10 @@ class ClassificationService(private val classificationPath: Path) {
     fun persist() = classificationRepository.persist()
     fun storageLocation() = classificationRepository.storageLocation()
 
+    private fun reset() {
+        classifier.reset()
+    }
+
     private fun save(category: Category, transaction: Transaction) {
         classificationRepository.save(Classification(transaction, category))
     }
@@ -40,8 +45,9 @@ class ClassificationService(private val classificationPath: Path) {
             Classification(transaction, internalClassification.category, internalClassification.probability)
     }
 
-    fun processTrainingData(): List<Transaction> {
+    fun processTrainingData(categoryType: CategoryType): List<Transaction> {
         val processedTransactions: MutableList<Transaction> = mutableListOf()
+        classifier.reset()
 
         classificationPath.parent.toFile().walk()
                 .filter { it.extension == "csv" }
@@ -49,11 +55,13 @@ class ClassificationService(private val classificationPath: Path) {
                 .forEach { classificationRepository ->
                     classificationRepository.retrieve()
                     classificationRepository.findAll().stream()
+                            .filter { categoryType == it.category.categoryType }
                             .forEach {
                                 learn(it.category, it.transaction)
                                 processedTransactions.add(it.transaction)
                             }
                 }
+        println("Trained ${processedTransactions.size} $categoryType transactions.")
         return processedTransactions
     }
 }

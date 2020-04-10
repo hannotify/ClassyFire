@@ -21,8 +21,8 @@ data class Transaction(val date: LocalDate, val description: String, val benefic
         val transactionHeader = "Transaction #${index + 1}/$size"
         println(transactionHeader)
         println("-".repeat(transactionHeader.length))
-        println("Date: $date   Amount: $amount   Description: $description")
-        println("Remarks: ${System.lineSeparator()}$remarks")
+        println("Date: $date   Amount: $amount   Description: $description   Remarks:")
+        println("$remarks")
         println()
     }
 }
