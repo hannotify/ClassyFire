@@ -25,7 +25,7 @@ public class ClassificationServiceTest {
         // Act
         val classification = classifier.classify(salaryTransaction)
         // Assert
-        assertEquals(salarySubcategory, classification.category)
+        assertEquals(salarySubcategory, classification?.category)
     }
 
     @Test
@@ -33,6 +33,6 @@ public class ClassificationServiceTest {
         // Act
         val classification = classifier.classify(waterTransaction)
         // Assert
-        assertEquals(waterSubcategory, classification.category)
+        assertEquals(waterSubcategory, classification?.category)
     }
 }
