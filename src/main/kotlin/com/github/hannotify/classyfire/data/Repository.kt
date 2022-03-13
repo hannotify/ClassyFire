@@ -16,6 +16,6 @@ interface Repository<E> {
     }
 
     fun saveAll(entitiesToSave: Collection<E>) {
-        entitiesToSave.stream().forEach { save(it) }
+        entities.addAll(entitiesToSave)
     }
 }

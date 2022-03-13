@@ -24,7 +24,7 @@ abstract class ProcessTransactionsState : State {
 
             if (classification != null) {
                 guessedCategoryId = stateContext.categories.indexOf(classification.category)
-                println("My guess is: '$guessedCategoryId - ${classification.category}' (${classification.probability * 100}%).")
+                println("My guess is: '$guessedCategoryId - ${classification.category}' (confidence: ${classification.probability * 100}%).")
             }
 
             var userInput: String
