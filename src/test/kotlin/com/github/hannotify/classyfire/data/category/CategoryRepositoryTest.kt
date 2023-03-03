@@ -1,11 +1,13 @@
 package com.github.hannotify.classyfire.data.category
 
 import com.github.hannotify.classyfire.testdata.Categories
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.io.File
 import java.nio.file.Path
 
-public class CategoryRepositoryTest {
+class CategoryRepositoryTest {
     private val categoryRepository = CategoryRepository(Path.of("src/test/resources/categories/categories.txt"))
 
     @Test
@@ -37,5 +39,10 @@ public class CategoryRepositoryTest {
 
         // Assert
         assertEquals(categoryRepository.findAll(), secondCategoryRepository.findAll())
+    }
+
+    @AfterEach
+    internal fun tearDown() {
+        File(categoryRepository.storageLocation().toString()).delete()
     }
 }

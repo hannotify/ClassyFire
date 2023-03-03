@@ -13,7 +13,7 @@ data class Category (val categoryType: CategoryType, val name: String, val super
                 _categoryType = CategoryType.valueOf(categoryStrings[1].dropLast(1))
             }
 
-            categoryStrings = categoryStrings[0].split(delimiters = *arrayOf(SUPER_CATEGORY_DELIMITER), limit = 2)
+            categoryStrings = categoryStrings[0].split(delimiters = arrayOf(SUPER_CATEGORY_DELIMITER), limit = 2)
 
             val hasSuperCategory = categoryStrings.size > 1
             return Category(_categoryType!!, categoryStrings[0], if (hasSuperCategory) fromString(categoryStrings[1], _categoryType) else null)

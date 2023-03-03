@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /*
@@ -35,7 +34,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = "com.github.hannotify.classyfire.ClassyFireKt"
+    mainClass.set("com.github.hannotify.classyfire.ClassyFireKt")
 }
 
 tasks.withType<KotlinCompile> {
