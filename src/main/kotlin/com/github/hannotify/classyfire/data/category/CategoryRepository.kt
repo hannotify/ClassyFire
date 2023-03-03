@@ -11,10 +11,9 @@ class CategoryRepository(private val storageLocation: Path) : RetrieveRepository
 
     fun findSubcategoriesByCategoryType(categoryType: CategoryType):
             List<Category> {
-        return findAll().stream()
+        return findAll()
                 .filter { it.isSubcategory() }
                 .filter { categoryType == it.categoryType }
-                .collect(Collectors.toUnmodifiableList())
     }
 
     override fun entityFromString(string: String): Category = Category.fromString(string)

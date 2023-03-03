@@ -12,7 +12,7 @@ interface PersistRepository<E> : Repository<E> {
         }
 
         FileOutputStream(targetFile, true).bufferedWriter().use { out ->
-            findAll().forEach { out.appendln(stringFromEntity(it)) }
+            findAll().forEach { out.appendLine(stringFromEntity(it)) }
         }
     }
 

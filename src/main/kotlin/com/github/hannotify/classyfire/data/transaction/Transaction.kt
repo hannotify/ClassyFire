@@ -22,7 +22,7 @@ data class Transaction(val date: LocalDate, val description: String, val benefic
         println(transactionHeader)
         println("-".repeat(transactionHeader.length))
         println("Date: $date   Amount: $amount   Description: $description   Remarks:")
-        println("$remarks")
+        println(remarks)
         println()
     }
 }

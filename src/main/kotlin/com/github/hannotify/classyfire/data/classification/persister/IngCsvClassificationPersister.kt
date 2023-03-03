@@ -14,8 +14,7 @@ class IngCsvClassificationPersister : ClassificationPersister {
                 classification.transaction.amount.toPlainString().replace('.', ','),
                 classification.transaction.transactionType,
                 classification.transaction.remarks,
-                classification.category.toString()).stream()
-                .collect(Collectors.joining(DELIMITER))
+                classification.category.toString()).joinToString(DELIMITER)
     }
 
     override fun getCategoryString(classificationString: String): String {
