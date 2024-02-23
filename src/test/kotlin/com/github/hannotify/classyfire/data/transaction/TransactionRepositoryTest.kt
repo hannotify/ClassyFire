@@ -22,9 +22,9 @@ internal class TransactionRepositoryTest {
         val transactions = transactionRepository.findAll()
 
         // Assert
-        assertEquals(96, transactions.size);
-        assertEquals(LocalDate.of(2019, 1, 1), transactions.elementAt(0).date)
-        assertEquals(LocalDate.of(2019, 1, 31), transactions.elementAt(transactions.size - 1).date)
+        assertEquals(40, transactions.size);
+        assertEquals(LocalDate.of(2021, 10, 1), transactions.elementAt(0).date)
+        assertEquals(LocalDate.of(2021, 11, 9), transactions.elementAt(transactions.size - 1).date)
         transactions.forEach { println(it) }
     }
 
@@ -34,9 +34,9 @@ internal class TransactionRepositoryTest {
         val incomeTransactions = transactionRepository.findTransactionsByCategoryType(CategoryType.INCOME)
 
         // Assert
-        assertEquals(17, incomeTransactions.size)
-        assertEquals(LocalDate.of(2019, 1, 1), incomeTransactions.elementAt(0).date)
-        assertEquals(LocalDate.of(2019, 1, 26), incomeTransactions.elementAt(incomeTransactions.size - 1).date)
+        assertEquals(3, incomeTransactions.size)
+        assertEquals(LocalDate.of(2021, 10, 4), incomeTransactions.elementAt(0).date)
+        assertEquals(LocalDate.of(2021, 10, 31), incomeTransactions.elementAt(incomeTransactions.size - 1).date)
         incomeTransactions.forEach { println(it) }
     }
 
@@ -46,9 +46,9 @@ internal class TransactionRepositoryTest {
         val expenseTransactions = transactionRepository.findTransactionsByCategoryType(CategoryType.EXPENSES)
 
         // Assert
-        assertEquals(79, expenseTransactions.size)
-        assertEquals(LocalDate.of(2019, 1, 1), expenseTransactions.elementAt(0).date)
-        assertEquals(LocalDate.of(2019, 1, 31), expenseTransactions.elementAt(expenseTransactions.size - 1).date)
+        assertEquals(37, expenseTransactions.size)
+        assertEquals(LocalDate.of(2021, 10, 1), expenseTransactions.elementAt(0).date)
+        assertEquals(LocalDate.of(2021, 11, 9), expenseTransactions.elementAt(expenseTransactions.size - 1).date)
     }
 
 

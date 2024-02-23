@@ -32,7 +32,7 @@ class StateContext(val categoryRepository: CategoryRepository, val transactionRe
         printCategories(categories)
     }
 
-    private fun printCategories(categories: List<Category>) {
+    private fun printCategories(categories: List<Category?>) {
         val splitSize = categories.size / 2
         val padding = categories.size.toString().length
         val categoryMap = categories.withIndex()
@@ -42,7 +42,7 @@ class StateContext(val categoryRepository: CategoryRepository, val transactionRe
 
         if (categories.size % 2 != 0) {
             // TODO: do something to expand the second column
-            categoryMap.add(listOf(null, categories[categories.size - 1]) as List<Category>)
+            categoryMap.add(listOf(null, categories[categories.size - 1]))
         }
 
 
