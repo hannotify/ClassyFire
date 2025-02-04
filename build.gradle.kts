@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin.
-    kotlin("jvm") version "2.0.0-Beta4"
+    kotlin("jvm") version "2.1.20-Beta2"
 
     // Apply the application plugin to add support for building a CLI application.
     application
@@ -28,6 +28,8 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.25.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
+    testImplementation("io.mockk:mockk:1.13.6")
+
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 }
