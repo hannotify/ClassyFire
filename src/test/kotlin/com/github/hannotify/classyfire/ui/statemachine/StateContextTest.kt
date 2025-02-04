@@ -1,79 +1,67 @@
 package com.github.hannotify.classyfire.ui.statemachine
 
 import com.github.hannotify.classyfire.data.category.CategoryRepository
-import com.github.hannotify.classyfire.data.classification.ClassificationRepository
 import com.github.hannotify.classyfire.data.transaction.TransactionRepository
 import com.github.hannotify.classyfire.process.ClassificationService
+import com.github.hannotify.classyfire.testdata.Categories
 import com.github.hannotify.classyfire.ui.statemachine.states.*
+import io.mockk.every
+import io.mockk.mockkStatic
 import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
+import java.io.File
 import java.nio.file.Path
 
 internal class StateContextTest {
+    private val categoryRepository = CategoryRepository(Path.of("src/test/resources/categories/categories.txt"))
     lateinit var stateContext: StateContext
 
     @BeforeEach
     internal fun setup() {
+        categoryRepository.saveAll(Categories.allCategories)
+        categoryRepository.persist()
+
         stateContext = StateContext(
                 CategoryRepository(Path.of("src/test/resources/categories/categories.txt")),
                 TransactionRepository(Path.of("src/test/resources/transactions/test.csv")),
                 ClassificationService(Path.of("src/test/resources/classifications/test-output.txt")))
     }
 
-    @Test
-    internal fun initialState_shouldBeRetrieveCategoriesState() {
-        assertThat(stateContext.state).isInstanceOf(RetrieveCategoriesState::class.java)
-    }
+    @ParameterizedTest(name = "State {0} should be {1}.")
+    @CsvSource(textBlock = """
+        0, RetrieveCategoriesState,
+        1, RetrieveTransactionsState,
+        2, ProcessTrainingDataState
+        3, ProcessIncomeTransactionsState,
+        4, ProcessTrainingDataState
+        5, ProcessExpensesTransactionsState,
+        6, PersistClassificationsState""")
+    internal fun assertStateOrder(stateNumber: Int, expectedStateName: String) {
+        mockkStatic(::readLine)
+        every { readLine() } returns "0"
 
-    @Test
-    internal fun secondState_shouldBeRetrieveTransactionsState() {
-        stateContext.nextState()
-        assertThat(stateContext.state).isInstanceOf(RetrieveTransactionsState::class.java)
-    }
+        repeat(stateNumber) { stateContext.nextState() }
 
-    @Test
-    internal fun thirdState_shouldBeProcessIncomeTransactionsState() {
-        stateContext.nextState()
-        stateContext.nextState()
-        assertThat(stateContext.state).isInstanceOf(ProcessIncomeTransactionsState::class.java)
-    }
-
-    @Test
-    internal fun fourthState_shouldBeProcessExpensesTransactionsState() {
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        assertThat(stateContext.state).isInstanceOf(ProcessExpensesTransactionsState::class.java)
-    }
-
-    @Test
-    internal fun fifthState_shouldBeProcessExpensesTransactionsState() {
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        assertThat(stateContext.state).isInstanceOf(ProcessExpensesTransactionsState::class.java)
-    }
-
-    @Test
-    internal fun sixthState_shouldBePersistClassificationsState() {
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        assertThat(stateContext.state).isInstanceOf(PersistClassificationsState::class.java)
+        assertThat(stateContext.state?.javaClass?.simpleName).isEqualTo(expectedStateName)
     }
 
     @Test
     internal fun thereShouldBeNoSeventhState() {
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
-        stateContext.nextState()
+        mockkStatic(::readLine)
+        every { readLine() } returns "0"
+
+        repeat(7) { stateContext.nextState() }
+
         assertThat(stateContext.state).isNull()
+    }
+
+    @AfterEach
+    internal fun tearDown() {
+        File(categoryRepository.storageLocation().toString()).delete()
     }
 }

@@ -9,6 +9,7 @@ import com.github.hannotify.classyfire.data.transaction.TransactionRepository
 import com.github.hannotify.classyfire.process.ClassificationService
 import com.github.hannotify.classyfire.ui.statemachine.states.RetrieveCategoriesState
 import kotlin.math.ceil
+import kotlin.math.max
 
 class StateContext(val categoryRepository: CategoryRepository, val transactionRepository: TransactionRepository,
                    val classificationService: ClassificationService) {
@@ -33,7 +34,7 @@ class StateContext(val categoryRepository: CategoryRepository, val transactionRe
     }
 
     private fun printCategories(categories: List<Category?>) {
-        val splitSize = categories.size / 2
+        val splitSize = max(categories.size / 2, 1)
         val padding = categories.size.toString().length
         val categoryMap = categories.withIndex()
                 .groupBy { it.index % splitSize }
@@ -49,8 +50,9 @@ class StateContext(val categoryRepository: CategoryRepository, val transactionRe
         // 2 columns:
         categoryMap.forEachIndexed { index, pairList ->
             println("%-60.60s %-60.60s".format(
-                    if (pairList[0] != null) "${index.toString().padStart(padding)} - ${pairList[0]}" else "",
-                    "${(index + splitSize).toString().padStart(padding)} - ${pairList[1]}"))
+                    pairList[0]?.let { "${index.toString().padStart(padding)} - ${pairList[0]}" },
+                    if (pairList.size > 1) "${(index + splitSize).toString().padStart(padding)} - ${pairList[1]}" else ""
+            ))
         }
 
         println()

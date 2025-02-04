@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
 
-public class ClassificationServiceTest {
+class ClassificationServiceTest {
     private val classifier: ClassificationService = ClassificationService(Path.of(""))
 
     @BeforeEach
