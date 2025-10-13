@@ -28,6 +28,6 @@ class IngCsvTransactionRetriever : TransactionRetriever {
     private fun toAmount(amountString: String, bijAf: String): BigDecimal {
         val amount = BigDecimal(amountString.replace(',', '.'))
 
-        return if ("Bij" == bijAf) amount else amount.negate()
+        return if (setOf("Bij", "Credit").contains(bijAf)) amount else amount.negate()
     }
 }
