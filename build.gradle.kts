@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin.
-    kotlin("jvm") version "2.1.20-Beta2"
+    kotlin("jvm") version "2.2.20"
 
     // Apply the application plugin to add support for building a CLI application.
     application
@@ -24,15 +24,14 @@ dependencies {
     // Kotlin
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("com.github.ptnplanet:Java-Naive-Bayes-Classifier:1.0.7")
-    implementation("com.github.ajalt.clikt:clikt:4.2.2")
+    implementation("com.github.ajalt.clikt:clikt:5.0.3")
 
-    testImplementation("org.assertj:assertj-core:3.25.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
-    testImplementation("io.mockk:mockk:1.13.6")
+    testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:6.0.0")
+    testImplementation("io.mockk:mockk:1.14.6")
 
-
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 application {
