@@ -16,17 +16,15 @@ plugins {
 }
 
 repositories {
-    maven("https://jitpack.io")
     mavenCentral()
 }
 
 dependencies {
     // Kotlin
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("com.github.ptnplanet:Java-Naive-Bayes-Classifier:1.0.7")
     implementation("com.github.ajalt.clikt:clikt:5.0.3")
 
-    testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation("org.assertj:assertj-core:3.27.7")
     testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.0")
     testImplementation("org.junit.jupiter:junit-jupiter-params:6.0.0")
     testImplementation("io.mockk:mockk:1.14.6")

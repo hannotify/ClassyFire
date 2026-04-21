@@ -5,13 +5,11 @@ import com.github.hannotify.classyfire.data.category.CategoryType
 import com.github.hannotify.classyfire.data.classification.Classification
 import com.github.hannotify.classyfire.data.classification.ClassificationRepository
 import com.github.hannotify.classyfire.data.transaction.Transaction
-import de.daslaboratorium.machinelearning.classifier.Classifier
-import de.daslaboratorium.machinelearning.classifier.bayes.BayesClassifier
 import java.io.File
 import java.nio.file.Path
 
 class ClassificationService(private val classificationPath: Path) {
-    private val classifier: Classifier<String, Category> = BayesClassifier()
+    private val classifier = NaiveBayesClassifier<String, Category>()
     private val classificationRepository: ClassificationRepository =
             ClassificationRepository(classificationPath)
 
